@@ -1,0 +1,52 @@
+/*********** Generics ***********/
+
+
+
+/*********** Carousel ***********/
+#carousel {
+  width: 600px;
+  height: 100%;
+  margin: 50px auto;
+  border: 5px solid black;
+  position: relative;
+}
+
+
+/* Carousel Main Gallery */
+#carousel #gallery {height: 100%;}
+
+#carousel #gallery img {
+  height: 100%;
+  width: 100%;
+
+  display: none;
+}
+
+#carousel #gallery img.active {display: block;}
+
+
+/* Carousel Thumbnail Box */
+#carousel #thumb-box {
+  display: flex;
+  width: 100%;
+}
+
+#carousel #thumb-box img {
+  height: 100px;
+  width: calc(100% / 5);
+  filter: grayscale(0.8);
+}
+
+#carousel #thumb-box img.active {filter: grayscale(0);}
+
+/* Carousel Buttons */
+#carousel .bi {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+#carousel #prev {right: 105%;}
+#carousel #next {left: 105%;}
