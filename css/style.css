@@ -15,7 +15,10 @@
 /* Carousel Main Gallery */
 #gallery {height: 450px;}
 
-#gallery .gallery-element {display: none;}
+#gallery .gallery-element {
+  height: 100%;
+  display: none;
+}
 
 #gallery .gallery-element.active {display: block;}
 

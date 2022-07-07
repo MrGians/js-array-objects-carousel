@@ -55,3 +55,70 @@ const images = [
       'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.',
   },
 ];
+
+// ------------------------------ FUNZIONI ------------------------------ //
+
+// Creo una funzione per generare il singolo elemento da inserire nella Gallery
+const createGalleryElement = (myArray) => {
+  // Eseguo il Destructoring dell'array
+  const {url, title, description} = myArray
+
+  // Genere l'elemento tramite template-literal
+  const galleryElement = `
+  <div class="gallery-element">
+    <img src="${url}" alt="${title}">
+    <div class="image-content">
+      <h2>${title}</h2>
+      <p>${description}</p>
+    </div>
+  </div>
+  `;
+
+  // Restituisco l'elemento creato
+  return galleryElement;
+}
+
+// ------------------------------ CAROUSEL ------------------------------ //
+
+
+// Recupero variabili DOM
+const gallery = document.getElementById("gallery");
+const thumbBox = document.getElementById("thumb-box");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+
+
+// Creo gli elementi del Carosello e li aggiungo alla Gallery
+let galleryElement = "";
+images.forEach((image) => galleryElement += createGalleryElement(image));
+gallery.innerHTML = galleryElement;
+
+
+// Recupero tutti gli elementi della Gallery
+const galleryElements = document.querySelectorAll(".gallery-element");
+
+// Creo una variabile di appoggio per indicare l'immagine active
+let galleryIndex = 0;
+// Aggiungo la classe Active all'elemento in posizione [galleryIndex]
+galleryElements[galleryIndex].classList.add("active");
+
+
+// Aggiungo un evento al click del bottone "Next"
+nextBtn.addEventListener("click", () => {
+
+  // Tolgo la classe active dall'immagine corrente
+  galleryElements[galleryIndex++].classList.remove("active");
+  // Aggiungo la classe active all'immagine successiva
+  galleryElements[galleryIndex].classList.add("active")
+
+});
+
+// Aggiungo un evento al click del bottone "Next"
+prevBtn.addEventListener("click", () => {
+
+  // Tolgo la classe active dall'immagine corrente
+  galleryElements[galleryIndex--].classList.remove("active");
+  // Aggiungo la classe active all'immagine successiva
+  galleryElements[galleryIndex].classList.add("active")
+
+});
