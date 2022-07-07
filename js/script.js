@@ -106,8 +106,11 @@ galleryElements[galleryIndex].classList.add("active");
 // Aggiungo un evento al click del bottone "Next"
 nextBtn.addEventListener("click", () => {
 
+  
   // Tolgo la classe active dall'immagine corrente
   galleryElements[galleryIndex++].classList.remove("active");
+  // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
+  if (galleryIndex > images.length - 1) galleryIndex = 0;
   // Aggiungo la classe active all'immagine successiva
   galleryElements[galleryIndex].classList.add("active")
 
@@ -118,6 +121,8 @@ prevBtn.addEventListener("click", () => {
 
   // Tolgo la classe active dall'immagine corrente
   galleryElements[galleryIndex--].classList.remove("active");
+  // SE siamo al primo elemento della gallery, allora riparte dall'ultimo
+  if (galleryIndex < 0) galleryIndex = images.length - 1;
   // Aggiungo la classe active all'immagine successiva
   galleryElements[galleryIndex].classList.add("active")
 
