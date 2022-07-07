@@ -63,7 +63,7 @@ const createGalleryElement = (myArray) => {
   // Eseguo il Destructoring dell'array
   const {url, title, description} = myArray
 
-  // Genere l'elemento tramite template-literal
+  // Genero l'elemento tramite template-literal
   const galleryElement = `
   <div class="gallery-element">
     <img src="${url}" alt="${title}">
@@ -73,9 +73,21 @@ const createGalleryElement = (myArray) => {
     </div>
   </div>
   `;
-
+  
   // Restituisco l'elemento creato
   return galleryElement;
+}
+
+// Creo una funzione per generare il singolo elemento da inserire nella Thumb-box
+const createThumbnailElement = (myArray) => {
+  // Eseguo il Destructoring dell'array
+  const {url, title} = myArray
+
+  // Genero l'elemento tramite template-literal
+  const thumbnailElement = `<img src="${url}" alt="thumbnail-${title}">`;
+
+  // Restituisco l'elemento creato
+  return thumbnailElement;
 }
 
 // ------------------------------ CAROUSEL ------------------------------ //
@@ -88,31 +100,44 @@ const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 
 
-// Creo gli elementi del Carosello e li aggiungo alla Gallery
-let galleryElement = "";
-images.forEach((image) => galleryElement += createGalleryElement(image));
+// Creo gli elementi del Carosello e li aggiungo rispettivamente alla Gallery ed alla Thumb-box
+let galleryElement  = "";
+let thumbnailElement = "";
+
+images.forEach((image) => {
+  galleryElement += createGalleryElement(image)
+  thumbnailElement += createThumbnailElement(image)
+});
+
 gallery.innerHTML = galleryElement;
+thumbBox.innerHTML = thumbnailElement;
 
 
-// Recupero tutti gli elementi della Gallery
+// Recupero tutti gli elementi della Gallery e della Thumb-box
 const galleryElements = document.querySelectorAll(".gallery-element");
+const thumbnailElements = document.querySelectorAll("#thumb-box img");
 
-// Creo una variabile di appoggio per indicare l'immagine active
+
+// Creo una variabile di appoggio per indicare l'immagine "active"
 let galleryIndex = 0;
-// Aggiungo la classe Active all'elemento in posizione [galleryIndex]
+// Aggiungo la classe "active" all'elemento in posizione [galleryIndex]
 galleryElements[galleryIndex].classList.add("active");
+thumbnailElements[galleryIndex].classList.add("active");
 
 
 // Aggiungo un evento al click del bottone "Next"
 nextBtn.addEventListener("click", () => {
 
-  
   // Tolgo la classe active dall'immagine corrente
-  galleryElements[galleryIndex++].classList.remove("active");
+  galleryElements[galleryIndex].classList.remove("active");
+  thumbnailElements[galleryIndex++].classList.remove("active");
+
   // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
   if (galleryIndex > images.length - 1) galleryIndex = 0;
+
   // Aggiungo la classe active all'immagine successiva
   galleryElements[galleryIndex].classList.add("active")
+  thumbnailElements[galleryIndex].classList.add("active")
 
 });
 
@@ -120,10 +145,14 @@ nextBtn.addEventListener("click", () => {
 prevBtn.addEventListener("click", () => {
 
   // Tolgo la classe active dall'immagine corrente
-  galleryElements[galleryIndex--].classList.remove("active");
+  galleryElements[galleryIndex].classList.remove("active");
+  thumbnailElements[galleryIndex--].classList.remove("active");
+
   // SE siamo al primo elemento della gallery, allora riparte dall'ultimo
   if (galleryIndex < 0) galleryIndex = images.length - 1;
+
   // Aggiungo la classe active all'immagine successiva
   galleryElements[galleryIndex].classList.add("active")
+  thumbnailElements[galleryIndex].classList.add("active")
 
 });
