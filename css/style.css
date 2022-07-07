@@ -40,21 +40,22 @@
 
 
 /* Carousel Thumbnail Box */
-#carousel #thumb-box {
+#thumb-box {
   display: flex;
   width: 100%;
 }
 
-#carousel #thumb-box img {
+#thumb-box img {
   height: 100px;
   width: calc(100% / 5);
   object-fit: cover;
   filter: grayscale(1);
 }
 
-#carousel #thumb-box img.active {filter: grayscale(0);}
+#thumb-box img.active {filter: grayscale(0);}
 
-/* Carousel Buttons */
+
+/* Carousel Prev & Next Buttons */
 #carousel .bi {
   position: absolute;
   top: 50%;
@@ -65,3 +66,27 @@
 
 #carousel #prev {right: 105%;}
 #carousel #next {left: 105%;}
+
+
+/* Carousel Autoplay & Reverse Autoplay Buttons */
+#carousel #autoplay-controls {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#autoplay-controls button {
+  font-size: 1.3rem;
+  color: white;
+  background-color: rgba(26, 26, 26, 0.7);
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 2rem;
+  visibility: hidden;
+}
+
+#carousel:hover #autoplay-controls button {visibility: visible;}
+
+#autoplay-controls button.active {background-color: rgba(32, 178, 64, 0.8);}

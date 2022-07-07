@@ -98,7 +98,8 @@ const gallery = document.getElementById("gallery");
 const thumbBox = document.getElementById("thumb-box");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
-
+const autoplayBtn = document.getElementById("autoplay-btn");
+const reverseAutoplayBtn = document.getElementById("reverse-autoplay-btn");
 
 // Creo gli elementi del Carosello e li aggiungo rispettivamente alla Gallery ed alla Thumb-box
 let galleryElement  = "";
@@ -157,17 +158,63 @@ prevBtn.addEventListener("click", () => {
 
 });
 
-// Aggiungo l'autoplay del carosello ad intervalli di 3secondi
-const autoplay = setInterval(() => {
 
-  // Tolgo la classe active dall'immagine corrente
-  galleryElements[galleryIndex].classList.remove("active");
-  thumbnailElements[galleryIndex++].classList.remove("active");
+// Creo una variabile di appoggio per i controlli dell'autoplay
+let isReverse = false;
 
-  // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
-  if (galleryIndex > images.length - 1) galleryIndex = 0;
+// Aggiunto un evento al click del bottone "autoplay"
+autoplayBtn.addEventListener("click", () => {
+  
+  // Aggiungo/Rimuovo la classe "active" al bottone Autoplay
+  autoplayBtn.classList.toggle("active");
+  
+   
+    // Genero l'autoplay con un intervallo di 3 secondi
+    const autoplay = setInterval(() => {
+      
+      if (autoplayBtn.classList.contains("active")) {
 
-  // Aggiungo la classe active all'immagine successiva
-  galleryElements[galleryIndex].classList.add("active")
-  thumbnailElements[galleryIndex].classList.add("active")
-}, 3000);
+        if (isReverse) {
+          // Tolgo la classe active dall'immagine corrente
+          galleryElements[galleryIndex].classList.remove("active");
+          thumbnailElements[galleryIndex--].classList.remove("active");
+
+          // SE siamo al primo elemento della gallery, allora riparte dall'ultimo
+          if (galleryIndex < 0) galleryIndex = images.length - 1;
+
+          // Aggiungo la classe active all'immagine successiva
+          galleryElements[galleryIndex].classList.add("active")
+          thumbnailElements[galleryIndex].classList.add("active")
+
+        } else {
+
+          // Tolgo la classe active dall'immagine corrente
+          galleryElements[galleryIndex].classList.remove("active");
+          thumbnailElements[galleryIndex++].classList.remove("active");
+          
+          // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
+          if (galleryIndex > images.length - 1) galleryIndex = 0;
+          
+          // Aggiungo la classe active all'immagine successiva
+          galleryElements[galleryIndex].classList.add("active")
+          thumbnailElements[galleryIndex].classList.add("active")
+        }
+
+      } else if (!(autoplayBtn.classList.contains("active"))) {
+        // Termino l'autoplay
+        clearInterval(autoplay);
+      }
+
+    }, 3000);
+  
+});
+
+// Aggiungo un evento al click del bottone "Reverse"
+reverseAutoplayBtn.addEventListener("click", () => {
+  
+  // Aggiungo/Rimuovo la classe "active" al bottone "Reverse"
+  reverseAutoplayBtn.classList.toggle("active");
+  // Verifico che il bottone "reverse" abbia la classe "active" o meno
+  if (reverseAutoplayBtn.classList.contains("active")) isReverse = true;
+  else if (!(reverseAutoplayBtn.classList.contains("active"))) isReverse = false;
+})
