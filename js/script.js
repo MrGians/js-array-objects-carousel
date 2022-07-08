@@ -90,6 +90,33 @@ const createThumbnailElement = (myArray) => {
   return thumbnailElement;
 }
 
+// Creo una funzione che mostri l'immagine successiva
+const showNextImage = () => {
+  // Tolgo la classe active dall'immagine corrente
+  galleryElements[galleryIndex].classList.remove("active");
+  thumbnailElements[galleryIndex++].classList.remove("active");
+
+  // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
+  if (galleryIndex > images.length - 1) galleryIndex = 0;
+
+  // Aggiungo la classe active all'immagine successiva
+  galleryElements[galleryIndex].classList.add("active")
+  thumbnailElements[galleryIndex].classList.add("active")
+}
+// Creo una funzione che mostri l'immagine precedente
+const showPrevImage = () => {
+  // Tolgo la classe active dall'immagine corrente
+  galleryElements[galleryIndex].classList.remove("active");
+  thumbnailElements[galleryIndex--].classList.remove("active");
+
+  // SE siamo al primo elemento della gallery, allora riparte dall'ultimo
+  if (galleryIndex < 0) galleryIndex = images.length - 1;
+
+  // Aggiungo la classe active all'immagine successiva
+  galleryElements[galleryIndex].classList.add("active")
+  thumbnailElements[galleryIndex].classList.add("active")
+}
+
 // ------------------------------ CAROUSEL ------------------------------ //
 
 
@@ -127,36 +154,10 @@ thumbnailElements[galleryIndex].classList.add("active");
 
 
 // Aggiungo un evento al click del bottone "Next"
-nextBtn.addEventListener("click", () => {
-
-  // Tolgo la classe active dall'immagine corrente
-  galleryElements[galleryIndex].classList.remove("active");
-  thumbnailElements[galleryIndex++].classList.remove("active");
-
-  // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
-  if (galleryIndex > images.length - 1) galleryIndex = 0;
-
-  // Aggiungo la classe active all'immagine successiva
-  galleryElements[galleryIndex].classList.add("active")
-  thumbnailElements[galleryIndex].classList.add("active")
-
-});
+nextBtn.addEventListener("click", showNextImage);
 
 // Aggiungo un evento al click del bottone "Next"
-prevBtn.addEventListener("click", () => {
-
-  // Tolgo la classe active dall'immagine corrente
-  galleryElements[galleryIndex].classList.remove("active");
-  thumbnailElements[galleryIndex--].classList.remove("active");
-
-  // SE siamo al primo elemento della gallery, allora riparte dall'ultimo
-  if (galleryIndex < 0) galleryIndex = images.length - 1;
-
-  // Aggiungo la classe active all'immagine successiva
-  galleryElements[galleryIndex].classList.add("active")
-  thumbnailElements[galleryIndex].classList.add("active")
-
-});
+prevBtn.addEventListener("click", showPrevImage);
 
 
 // Creo una variabile di appoggio per i controlli dell'autoplay
@@ -171,39 +172,17 @@ autoplayBtn.addEventListener("click", () => {
    
     // Genero l'autoplay con un intervallo di 3 secondi
     const autoplay = setInterval(() => {
-      
+
+      // Se l'autoplay contiene la classe "active" viene avviato
       if (autoplayBtn.classList.contains("active")) {
-
-        if (isReverse) {
-          // Tolgo la classe active dall'immagine corrente
-          galleryElements[galleryIndex].classList.remove("active");
-          thumbnailElements[galleryIndex--].classList.remove("active");
-
-          // SE siamo al primo elemento della gallery, allora riparte dall'ultimo
-          if (galleryIndex < 0) galleryIndex = images.length - 1;
-
-          // Aggiungo la classe active all'immagine successiva
-          galleryElements[galleryIndex].classList.add("active")
-          thumbnailElements[galleryIndex].classList.add("active")
-
-        } else {
-
-          // Tolgo la classe active dall'immagine corrente
-          galleryElements[galleryIndex].classList.remove("active");
-          thumbnailElements[galleryIndex++].classList.remove("active");
-          
-          // SE siamo all'ultimo elemento della gallery, allora riparte dal primo
-          if (galleryIndex > images.length - 1) galleryIndex = 0;
-          
-          // Aggiungo la classe active all'immagine successiva
-          galleryElements[galleryIndex].classList.add("active")
-          thumbnailElements[galleryIndex].classList.add("active")
-        }
-
-      } else if (!(autoplayBtn.classList.contains("active"))) {
-        // Termino l'autoplay
-        clearInterval(autoplay);
+        
+        // Controllo il verso in cui dovrà girare l'autoplay
+        if (isReverse) showPrevImage();
+        else showNextImage();
       }
+      // Altrimenti se NON contiene la classe "active" Termino l'autoplay
+      else clearInterval(autoplay);
+      
 
     }, 3000);
   
@@ -214,7 +193,8 @@ reverseAutoplayBtn.addEventListener("click", () => {
   
   // Aggiungo/Rimuovo la classe "active" al bottone "Reverse"
   reverseAutoplayBtn.classList.toggle("active");
+
   // Verifico che il bottone "reverse" abbia la classe "active" o meno
   if (reverseAutoplayBtn.classList.contains("active")) isReverse = true;
-  else if (!(reverseAutoplayBtn.classList.contains("active"))) isReverse = false;
+  else isReverse = false;
 })
